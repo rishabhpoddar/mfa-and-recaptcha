@@ -1,9 +1,11 @@
+import { useState } from "react";
 import ThirdPartyEmailPassword, {
     Google,
     Github,
     Apple,
     Twitter,
 } from "supertokens-auth-react/recipe/thirdpartyemailpassword";
+import EmailPassword from "supertokens-auth-react/recipe/emailpassword";
 import { ThirdPartyEmailPasswordPreBuiltUI } from "supertokens-auth-react/recipe/thirdpartyemailpassword/prebuiltui";
 import Passwordless from "supertokens-auth-react/recipe/passwordless";
 import { PasswordlessPreBuiltUI } from "supertokens-auth-react/recipe/passwordless/prebuiltui";
@@ -14,6 +16,10 @@ import { EmailVerificationPreBuiltUI } from "supertokens-auth-react/recipe/email
 import TOTP from "supertokens-auth-react/recipe/totp";
 import { TOTPPreBuiltUI } from "supertokens-auth-react/recipe/totp/prebuiltui";
 import Session from "supertokens-auth-react/recipe/session";
+import {
+    GoogleReCaptcha,
+    GoogleReCaptchaProvider
+} from 'react-google-recaptcha-v3';
 
 export function getApiDomain() {
     const apiPort = process.env.REACT_APP_API_PORT || 3001;
@@ -39,6 +45,19 @@ export const SuperTokensConfig = {
         ThirdPartyEmailPassword.init({
             signInAndUpFeature: {
                 providers: [Github.init(), Google.init(), Apple.init(), Twitter.init()],
+                signUpForm: {
+                    formFields: [{
+                        id: "recaptcha",
+                        label: "",
+                        inputComponent: ({ value, name, onChange }) => {
+                            return <Captcha onChange={(token) => {
+                                if (value === "") {
+                                    onChange(token)
+                                }
+                            }} />
+                        }
+                    }]
+                }
             },
         }),
         Passwordless.init({
@@ -68,3 +87,12 @@ export const PreBuiltUIList = [
 export const ComponentWrapper = (props: { children: JSX.Element }): JSX.Element => {
     return props.children;
 };
+
+function Captcha(props: { onChange: (token: string) => void }) {
+    return (
+        <GoogleReCaptcha
+            onVerify={(token) => {
+                props.onChange(token)
+            }} />
+    )
+}

@@ -33,10 +33,3 @@ npm run start
 ```
 
 This will start the node backend on `http://localhost:3001` and the react frontend on `http://localhost:3000`.
-
-TODO:
-- recaptcha keys
-
-client key: 6LfNb8EpAAAAAPB218w9BIaSZWEA-lxi-L7pow7B
-
-server key: 6LfNb8EpAAAAAIdXKZB8_yF45HAKmGZVn3Nc77hG

@@ -7,6 +7,7 @@ import MultiFactorAuth from "supertokens-node/recipe/multifactorauth";
 import AccountLinking from "supertokens-node/recipe/accountlinking";
 import EmailVerification from "supertokens-node/recipe/emailverification";
 import TOTP from "supertokens-node/recipe/totp";
+import axios from "axios";
 
 export function getApiDomain() {
     const apiPort = process.env.REACT_APP_API_PORT || 3001;
@@ -35,6 +36,31 @@ export const SuperTokensConfig: TypeInput = {
     // use from SuperTokens. See the full list here: https://supertokens.com/docs/guides
     recipeList: [
         ThirdPartyEmailPassword.init({
+            signUpFeature: {
+                formFields: [
+                    {
+                        id: "recaptcha",
+                        validate: async (value) => {
+                            if (value === "") {
+                                return "Captcha is required";
+                            }
+                            const url = `https://www.google.com/recaptcha/api/siteverify?secret=${"6LfNb8EpAAAAAIdXKZB8_yF45HAKmGZVn3Nc77hG"}&response=${value}`;
+
+                            let axiosResponse = await axios({
+                                method: "post",
+                                url,
+                                headers: {
+                                    "Content-Type": "application/json"
+                                }
+                            })
+                            let jsonResponse = axiosResponse.data;
+                            if (!jsonResponse.success) {
+                                return "Captcha is invalid";
+                            }
+                        }
+                    }
+                ]
+            },
             providers: [
                 // We have provided you with development keys which you can use for testing.
                 // IMPORTANT: Please replace them with your own OAuth keys for production use.
