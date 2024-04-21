@@ -25,3 +25,7 @@
     font-weight: bold;
     font-size: 17px;
 }
+
+.grecaptcha-badge {
+    display: none;
+}

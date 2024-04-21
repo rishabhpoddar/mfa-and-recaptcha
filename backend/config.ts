@@ -54,6 +54,7 @@ export const SuperTokensConfig: TypeInput = {
                                 }
                             })
                             let jsonResponse = axiosResponse.data;
+                            console.log("Recaptcha response from Google: ", jsonResponse)
                             if (!jsonResponse.success) {
                                 return "Captcha is invalid";
                             }
