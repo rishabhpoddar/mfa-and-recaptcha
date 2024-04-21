@@ -1,11 +1,9 @@
-import { useState } from "react";
 import ThirdPartyEmailPassword, {
     Google,
     Github,
     Apple,
     Twitter,
 } from "supertokens-auth-react/recipe/thirdpartyemailpassword";
-import EmailPassword from "supertokens-auth-react/recipe/emailpassword";
 import { ThirdPartyEmailPasswordPreBuiltUI } from "supertokens-auth-react/recipe/thirdpartyemailpassword/prebuiltui";
 import Passwordless from "supertokens-auth-react/recipe/passwordless";
 import { PasswordlessPreBuiltUI } from "supertokens-auth-react/recipe/passwordless/prebuiltui";
@@ -13,12 +11,9 @@ import MultiFactorAuth from "supertokens-auth-react/recipe/multifactorauth";
 import { MultiFactorAuthPreBuiltUI } from "supertokens-auth-react/recipe/multifactorauth/prebuiltui";
 import EmailVerification from "supertokens-auth-react/recipe/emailverification";
 import { EmailVerificationPreBuiltUI } from "supertokens-auth-react/recipe/emailverification/prebuiltui";
-import TOTP from "supertokens-auth-react/recipe/totp";
-import { TOTPPreBuiltUI } from "supertokens-auth-react/recipe/totp/prebuiltui";
 import Session from "supertokens-auth-react/recipe/session";
 import {
     GoogleReCaptcha,
-    GoogleReCaptchaProvider
 } from 'react-google-recaptcha-v3';
 
 export function getApiDomain() {
@@ -67,7 +62,6 @@ export const SuperTokensConfig = {
         EmailVerification.init({
             mode: "REQUIRED",
         }),
-        TOTP.init(),
         Session.init(),
     ],
 };
@@ -81,7 +75,6 @@ export const PreBuiltUIList = [
     PasswordlessPreBuiltUI,
     MultiFactorAuthPreBuiltUI,
     EmailVerificationPreBuiltUI,
-    TOTPPreBuiltUI,
 ];
 
 export const ComponentWrapper = (props: { children: JSX.Element }): JSX.Element => {

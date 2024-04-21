@@ -6,7 +6,6 @@ import Dashboard from "supertokens-node/recipe/dashboard";
 import MultiFactorAuth from "supertokens-node/recipe/multifactorauth";
 import AccountLinking from "supertokens-node/recipe/accountlinking";
 import EmailVerification from "supertokens-node/recipe/emailverification";
-import TOTP from "supertokens-node/recipe/totp";
 import axios from "axios";
 
 export function getApiDomain() {
@@ -137,7 +136,6 @@ export const SuperTokensConfig: TypeInput = {
                     getMFARequirementsForAuth: () => [
                         {
                             oneOf: [
-                                MultiFactorAuth.FactorIds.TOTP,
                                 MultiFactorAuth.FactorIds.OTP_EMAIL,
                                 MultiFactorAuth.FactorIds.OTP_PHONE,
                             ],
@@ -146,7 +144,6 @@ export const SuperTokensConfig: TypeInput = {
                 }),
             },
         }),
-        TOTP.init(),
         Session.init(),
         Dashboard.init(),
     ],
