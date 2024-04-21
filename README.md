@@ -18,11 +18,11 @@
 2. Install dependencies: 
 
 ```bash
-cd backend &&npm install
+cd backend && npm install
 ```
 
 ```bash
-cd frontend &&npm install
+cd frontend && npm install
 ```
 
 3. Start the app
