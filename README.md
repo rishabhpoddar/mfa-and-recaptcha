@@ -2,7 +2,6 @@
 
 ## Features:
 - Login with social or email password
-- Account deduplication
 - MFA with SMS or email OTP
 - Google reCAPTCHA
 - Support for JWTs and opaque tokens (via access token blacklisting)
