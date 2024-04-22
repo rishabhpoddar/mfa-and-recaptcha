@@ -177,6 +177,35 @@ export const SuperTokensConfig: TypeInput = {
         Passwordless.init({
             contactMethod: "EMAIL_OR_PHONE",
             flowType: "USER_INPUT_CODE_AND_MAGIC_LINK",
+            override: {
+                apis: (oI) => {
+                    return {
+                        ...oI,
+                        createCodePOST: async function (input) {
+                            if ("email" in input && input.session === undefined) {
+                                let existingUsers = await supertokens.listUsersByAccountInfo(input.tenantId, {
+                                    email: input.email
+                                });
+                                if (existingUsers.length === 0) {
+                                    // this means this email is new so we allow sign up
+                                    return oI.createCodePOST!(input);
+                                }
+                                if (existingUsers.find(u =>
+                                    u.loginMethods.find(lM => lM.hasSameEmailAs(input.email) && lM.recipeId === "passwordless") !== undefined)) {
+                                    // this means that the existing user is a passwordless login user. So we allow it
+                                    return oI.createCodePOST!(input);
+                                }
+                                return {
+                                    status: "GENERAL_ERROR",
+                                    message: "Seems like you already have an account with another method. Please use that instead."
+                                }
+                            }
+                            // phone number based login, so we allow it.
+                            return await oI.createCodePOST!(input);
+                        },
+                    }
+                }
+            }
         }),
         EmailVerification.init({
             mode: "REQUIRED",
@@ -188,7 +217,7 @@ export const SuperTokensConfig: TypeInput = {
             }),
         }),
         MultiFactorAuth.init({
-            firstFactors: ["thirdparty", "emailpassword"],
+            firstFactors: ["thirdparty", "emailpassword", "otp-email"],
             override: {
                 functions: (oI) => ({
                     ...oI,

@@ -54,4 +54,9 @@ app.get("/tenants", async (req, res) => {
 // returns 401 to the client.
 app.use(errorHandler());
 
+app.use((err: any, req: any, res: any, next: any) => {
+    console.log(err);
+    next(err)
+})
+
 app.listen(3001, () => console.log(`API Server listening on port 3001`));
