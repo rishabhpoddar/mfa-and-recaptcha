@@ -33,3 +33,13 @@ npm run start
 ```
 
 This will start the node backend on `http://localhost:3001` and the react frontend on `http://localhost:3000`.
+
+## Different flows
+
+### Email password login with OTP email as second factor
+- Email: rishabh@supertokens.com
+- Password: abcd1234
+
+### Email password login with OTP SMS as second factor
+- Email: rishabh+2@supertokens.com
+- Password: abcd1234

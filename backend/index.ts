@@ -32,6 +32,17 @@ app.get("/sessioninfo", verifySession(), async (req: SessionRequest, res) => {
     });
 });
 
+app.get("/sessioninfo-with-blacklisting", verifySession({
+    checkDatabase: true,
+}), async (req: SessionRequest, res) => {
+    let session = req.session;
+    res.send({
+        sessionHandle: session!.getHandle(),
+        userId: session!.getUserId(),
+        accessTokenPayload: session!.getAccessTokenPayload(),
+    });
+});
+
 // This API is used by the frontend to create the tenants drop down when the app loads.
 // Depending on your UX, you can remove this API.
 app.get("/tenants", async (req, res) => {
