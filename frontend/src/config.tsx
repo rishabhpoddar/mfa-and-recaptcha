@@ -44,13 +44,7 @@ export const SuperTokensConfig = {
                     formFields: [{
                         id: "recaptcha",
                         label: "",
-                        inputComponent: ({ value, name, onChange }) => {
-                            return <Captcha onChange={(token) => {
-                                if (value === "") {
-                                    onChange(token)
-                                }
-                            }} />
-                        }
+                        inputComponent: ({ onChange }) => <GoogleReCaptcha onVerify={onChange} />
                     }]
                 }
             },
@@ -82,12 +76,3 @@ export const PreBuiltUIList = [
 export const ComponentWrapper = (props: { children: JSX.Element }): JSX.Element => {
     return props.children;
 };
-
-function Captcha(props: { onChange: (token: string) => void }) {
-    return (
-        <GoogleReCaptcha
-            onVerify={(token) => {
-                props.onChange(token)
-            }} />
-    )
-}
